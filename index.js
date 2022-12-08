@@ -1,10 +1,8 @@
-// * imports
 const promptSync = require('prompt-sync')()
 
-// ! https://www.w3schools.com/jsref/jsref_obj_regexp.asp
 /*
     /[a-z]/	    Find any character between the brackets
-    /[^0-9]/	Find any number NOT between the brackets
+    /[^0-9]/	  Find any number NOT between the brackets
     /[a-z]/i   	(case insesitive)Find any character between the brackets
     /[a-z]|\s/  Find any lower case characters and whitespaces
     /\d/        Find any digit
@@ -12,36 +10,48 @@ const promptSync = require('prompt-sync')()
     /./         Find any character (excluding empty string, \n, \t etc)
 */
 
+console.log(
+  "----------------\nRegExp tester JS\n----------------\nCheckout docs: https://www.w3schools.com/jsref/jsref_obj_regexp.asp"
+)
+let exp =  process.argv[2] 
+  ? process.argv[2].split('/')
+  : promptSync(`Input regular expression, including /: `).split('/')
+console.log()
 
-let exp =  process.argv[2].split('/') || promptSync('Input regular Expression: ').split('/')
 let regExp = RegExp(exp[1], exp[2])
-console.log('Input "quit" to quit, "change" to change expression, "view" to view expression\n')
+let inputString;
 
-while (true){
-    let testStr = promptSync('Input Test String ("quit" to quit, "view" to view, "change" to change): ')
-    if (testStr.toLowerCase() == 'quit'){
-        break
-    }
-    else if (testStr.toLowerCase() == 'change'){
-        exp = promptSync('Input regular Expression: ').split('/')
-        regExp = RegExp(exp[1],exp[2])
-        console.log('\n')
-        continue
-    }
-    else if (testStr.toLowerCase() == 'view'){
-        console.log(`RegExp: ${regExp}\n`)
-        continue
-    }
+do {
+  console.log('  Testing', regExp)
+  inputString = promptSync('Input string to check if it matches, or type "QQ" to quit, or "CC" to change RegExp): ')
 
-    // console.log(
-    //     testStr.split(regExp),
-    //     testStr.split(regExp).map(word => {
-    //         return word[0].toUpperCase() + word.slice(1)
-    //     })
-    // )
+  if (inputString === null || inputString.toUpperCase() == 'QQ'){
+    break
+  }
+  else if (inputString.toUpperCase() == 'CC'){
+    try {
+      console.log(
+        "\nCheckout docs: https://www.w3schools.com/jsref/jsref_obj_regexp.asp"
+      )
+      exp = promptSync(`Input regular expression, including /: `).split('/')
+      regExp = RegExp(exp[1], exp[2])
+      console.log()
+      continue
+    }
+    catch(e) {
+      console.log("Invalid regExp")
+      break
+    }    
+  }
 
-    console.log(
-        regExp.test(testStr)
-    )
-}
-console.log('end\n')
+  console.log(
+    ' ', 
+    inputString,
+    '=>', 
+    regExp.test(inputString)
+  )
+  inputString = promptSync()
+
+} while (inputString !== null && inputString.toUpperCase() !== 'QQ')
+
+console.log('\n...shutting down...\n')
