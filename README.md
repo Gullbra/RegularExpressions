@@ -1,6 +1,6 @@
 # RegExp Tester
 
-A simple command line RegExp tester.
+A simple and quick command line RegExp tester.
  ```
  npm i
  ```
